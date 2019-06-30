@@ -1,27 +1,21 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.app.Activity;
-
 import android.content.Intent;
-
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-
-
 public class BudgetFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TYPE = "type";
+
     private static final int REQUEST_CODE = 1001;
 
 
@@ -34,11 +28,10 @@ public class BudgetFragment extends Fragment {
         // Required empty public constructor
     }
 
-    static BudgetFragment newInstance(String param1, String param2) {
+    static BudgetFragment newInstance(String type) {
         BudgetFragment fragment = new BudgetFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,10 +39,6 @@ public class BudgetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
