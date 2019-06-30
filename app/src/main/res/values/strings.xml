@@ -1,0 +1,9 @@
+<resources>
+    <string name="add_button_text">Add</string>
+    <string name="price_hint">Price</string>
+    <string name="title_hint">Title</string>
+    <string name="prise_template">%1$s ₽</string>
+    <string name="budget_title">Budget</string>
+    <string name="app_name">MoneyLoft</string>
+    <string name="hello_world">Hello World</string>
+</resources>

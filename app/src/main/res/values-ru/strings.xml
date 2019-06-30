@@ -1,0 +1,9 @@
+<resources>
+    <string name="title_hint">Название</string>
+    <string name="price_hint">Цена</string>
+    <string name="budget_title">Учёт бюджета</string>
+    <string name="prise_template">%1$s ₽</string>
+    <string name="add_button_text">Добавить</string>
+    <string name="app_name">MoneyLoft (ru)</string>
+    <string name="hello_world">Привет мир!</string>
+</resources>
