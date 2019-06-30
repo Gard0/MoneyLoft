@@ -1,6 +1,5 @@
 package com.loftschool.fomin.moneyloft;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,21 +30,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     public int getItemCount() {
         return mItemList.size();
     }
-    public void addItem(final Item item) {
+
+    void addItem(final Item item) {
         mItemList.add(item);
         notifyItemInserted(mItemList.size());
     }
+
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameView;
         private TextView mPriceView;
 
-        public ItemViewHolder(@NonNull final View itemView) {
+        ItemViewHolder(@NonNull final View itemView) {
             super(itemView);
             mNameView = itemView.findViewById(R.id.item_name);
             mPriceView = itemView.findViewById(R.id.item_price);
         }
 
-        public void bindItem(final Item item) {
+        void bindItem(final Item item) {
             mNameView.setText(item.getName());
             mPriceView.setText(
                     (mPriceView.getContext().getResources().getString(R.string.prise_template, String.valueOf(item.getPrice()))));
