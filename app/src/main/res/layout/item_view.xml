@@ -39,8 +39,4 @@
             tools:text="70 ₽" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:background="@color/divider_color" />
 </LinearLayout>
