@@ -28,8 +28,7 @@ public class BudgetActivity extends AppCompatActivity {
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(this)));
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+
         mItemsAdapter.addItem(new Item("Молоко",70));
         mItemsAdapter.addItem(new Item("Зубная щётка",70));
         mItemsAdapter.addItem(new Item("Сковородка с антипригарным покрытием",1670));
@@ -53,4 +52,3 @@ public class BudgetActivity extends AppCompatActivity {
     }
 
 }
-
