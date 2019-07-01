@@ -6,4 +6,8 @@
     <string name="budget_title">Budget</string>
     <string name="app_name">MoneyLoft</string>
     <string name="hello_world">Hello World</string>
+    <string name="Outcome">Outcome</string>
+    <string name="outcome">Outcome</string>
+    <string name="income">Income</string>
+
 </resources>
