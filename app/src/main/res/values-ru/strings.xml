@@ -6,4 +6,7 @@
     <string name="add_button_text">Добавить</string>
     <string name="app_name">MoneyLoft (ru)</string>
     <string name="hello_world">Привет мир!</string>
+    <string name="Outcome">Расходы</string>
+    <string name="outcome">Расходы</string>
+    <string name="income">Доходы</string>
 </resources>

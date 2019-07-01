@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
 
 public class BudgetActivity extends AppCompatActivity {
 
@@ -30,6 +32,10 @@ public class BudgetActivity extends AppCompatActivity {
         mViewPager.setAdapter(mViewPagerAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);
+        Objects.requireNonNull(mTabLayout.getTabAt(0)).setText(R.string.outcome);
+        Objects.requireNonNull(mTabLayout.getTabAt(1)).setText(R.string.income);
+
+        mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
     }
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
@@ -41,13 +47,13 @@ public class BudgetActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(final int i) {
-           switch (i){
-               case 0:
-                   return BudgetFragment.newInstance("outcome");
-               case 1:
-                   return BudgetFragment.newInstance("income");
-           }
-           return null;
+            switch (i) {
+                case 0:
+                    return BudgetFragment.newInstance("outcome");
+                case 1:
+                    return BudgetFragment.newInstance("income");
+            }
+            return null;
         }
 
         @Override
