@@ -1,12 +1,15 @@
 package com.loftschool.fomin.moneyloft;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,30 +61,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         TextView helloWorldView = findViewById(R.id.hello_world);
-        helloWorldView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, BudgetActivity.class));
-            }
-        });
+        helloWorldView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BudgetActivity.class)));
         LoftMoneyApp loftMoneyApp = (LoftMoneyApp) getApplication();
 
         Api api = loftMoneyApp.getApi();
 
-        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Call<AuthResponse> authCall = api.auth(androidId);
         authCall.enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-            Toast.makeText(MainActivity.this, response.toString(),Toast.LENGTH_LONG).show();
+            public void onResponse(
+                    final Call<AuthResponse> call, final Response<AuthResponse> response
+            ) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                assert response.body() != null;
+                editor.putString("auth_token", response.body().getAuthToken());
+                editor.apply();
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(final Call<AuthResponse> call, final Throwable t) {
 
             }
-
         });
     }
 

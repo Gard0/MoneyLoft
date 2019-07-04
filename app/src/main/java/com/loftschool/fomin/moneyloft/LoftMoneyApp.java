@@ -20,19 +20,22 @@ public class LoftMoneyApp extends Application {
         super.onCreate();
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient();
 
         Gson gson = new GsonBuilder().create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl ("https://loftschool.com/android-api/basic/v1/")
+                .baseUrl("https://loftschool.com/android-api/basic/v1/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
 
         mApi = retrofit.create(Api.class);
     }
-    public Api getApi(){
+
+    public Api getApi() {
         return mApi;
     }
 }

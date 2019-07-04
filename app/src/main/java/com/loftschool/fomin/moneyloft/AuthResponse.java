@@ -1,8 +1,12 @@
 package com.loftschool.fomin.moneyloft;
 
+import com.google.gson.annotations.SerializedName;
+
 class AuthResponse {
     private String status;
     private String id;
+
+    @SerializedName("auth_token")
     private String authToken;
 
     public String getStatus() {
@@ -21,7 +25,7 @@ class AuthResponse {
         this.id = id;
     }
 
-    public String getAuthToken() {
+    String getAuthToken() {
         return authToken;
     }
 

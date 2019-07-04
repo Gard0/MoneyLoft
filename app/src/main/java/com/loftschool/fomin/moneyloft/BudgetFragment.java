@@ -9,27 +9,37 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BudgetFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
-
+    private static final String TYPE = "type";
     private static final int REQUEST_CODE = 1001;
 
     private ItemsAdapter mItemsAdapter;
+    private Api mApi;
 
     public BudgetFragment() {
         // Required empty public constructor
     }
 
-    static BudgetFragment newInstance(int priceColor) {
+    static BudgetFragment newInstance(FragmentType fragmentType) {
         BudgetFragment fragment = new BudgetFragment();
         Bundle args = new Bundle();
-        args.putInt(PRICE_COLOR, priceColor);
+        args.putInt(PRICE_COLOR, fragmentType.getPriceColor());
+        args.putString(TYPE, fragmentType.name());
 
         fragment.setArguments(args);
         return fragment;
@@ -38,6 +48,14 @@ public class BudgetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mApi = ((LoftMoneyApp) Objects.requireNonNull(getActivity()).getApplication()).getApi();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadItems();
     }
 
     @Override
@@ -53,19 +71,8 @@ public class BudgetFragment extends Fragment {
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
 
-
-        mItemsAdapter.addItem(new Item("Молоко", 70));
-        mItemsAdapter.addItem(new Item("Зубная щётка", 70));
-        mItemsAdapter.addItem(new Item("Сковородка с антипригарным покрытием", 1670));
-
         Button openAddScreenButton = fragmentView.findViewById(R.id.open_add_screen);
-        openAddScreenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                startActivityForResult(new Intent(getContext(), AddItemActivity.class), REQUEST_CODE);
-            }
-
-        });
+        openAddScreenButton.setOnClickListener(v -> startActivityForResult(new Intent(getContext(), AddItemActivity.class), REQUEST_CODE));
 
         return fragmentView;
     }
@@ -74,8 +81,48 @@ public class BudgetFragment extends Fragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            Item item = new Item(data.getStringExtra("name"), Integer.parseInt(data.getStringExtra("price")));
-            mItemsAdapter.addItem(item);
+            final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+            final int price = Integer.parseInt(data.getStringExtra("price"));
+            final String name = data.getStringExtra("name");
+            assert getArguments() != null;
+            Call<Status> call = mApi.addItems(new AddItemsRequest(price, name, getArguments().getString(TYPE)), token);
+            call.enqueue(new Callback<Status>() {
+                @Override
+                public void onResponse(Call<Status> call, Response<Status> response) {
+                    loadItems();
+                }
+
+                @Override
+                public void onFailure(Call<Status> call, Throwable t) {
+
+                }
+            });
         }
     }
+
+    private void loadItems() {
+        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+        assert getArguments() != null;
+        Call<List<Item>> itemsResponseCall = mApi.getItems(getArguments().getString(TYPE), token);
+        itemsResponseCall.enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+
+                mItemsAdapter.clear();
+                List<Item> itemsList = response.body();
+                assert itemsList != null;
+                for (Item item : itemsList) {
+                    mItemsAdapter.addItem(item);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+
+
+            }
+        });
+    }
+
 }
