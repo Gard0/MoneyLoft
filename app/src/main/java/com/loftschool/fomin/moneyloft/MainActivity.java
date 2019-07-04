@@ -1,6 +1,5 @@
 package com.loftschool.fomin.moneyloft;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -69,13 +68,13 @@ public class MainActivity extends AppCompatActivity {
 
         Api api = loftMoneyApp.getApi();
 
-        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Call<AuthResponse> authCall = api.auth(androidId);
         authCall.enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-
+            Toast.makeText(MainActivity.this, response.toString(),Toast.LENGTH_LONG).show();
             }
 
             @Override

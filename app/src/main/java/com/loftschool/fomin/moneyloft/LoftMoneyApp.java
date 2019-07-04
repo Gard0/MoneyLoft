@@ -25,7 +25,7 @@ public class LoftMoneyApp extends Application {
         Gson gson = new GsonBuilder().create();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl ("https://loftschool.com/android-api/basic/v1")
+                .baseUrl ("https://loftschool.com/android-api/basic/v1/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
