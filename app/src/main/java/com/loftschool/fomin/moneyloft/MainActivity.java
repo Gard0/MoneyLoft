@@ -74,11 +74,8 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(
                     final Call<AuthResponse> call, final Response<AuthResponse> response
             ) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                assert response.body() != null;
-                editor.putString("auth_token", response.body().getAuthToken());
-                editor.apply();
+                saveToken(response.body().getAuthToken());
+
             }
 
             @Override
@@ -86,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void saveToken (final String token){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("auth_token", token);
+        editor.apply();
     }
 
 }
