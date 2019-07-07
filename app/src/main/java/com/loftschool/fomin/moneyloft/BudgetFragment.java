@@ -28,7 +28,11 @@ public class BudgetFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
-    private static final int REQUEST_CODE = 1001;
+    static final int REQUEST_CODE;
+
+    static {
+        REQUEST_CODE = 1001;
+    }
 
     private ItemsAdapter mItemsAdapter;
     private Api mApi;
@@ -72,9 +76,6 @@ public class BudgetFragment extends Fragment {
 
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
-
-        FloatingActionButton openAddScreenButton = fragmentView.findViewById(R.id.fab_add_screen);
-        openAddScreenButton.setOnClickListener(v -> startActivityForResult(new Intent(getContext(), AddItemActivity.class), REQUEST_CODE));
 
         return fragmentView;
     }
