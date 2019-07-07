@@ -2,6 +2,7 @@ package com.loftschool.fomin.moneyloft;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,10 +46,22 @@ public class BudgetActivity extends AppCompatActivity {
         Objects.requireNonNull(mTabLayout.getTabAt(1)).setText(R.string.income);
 
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
-        FloatingActionButton openAddScreenButton = findViewById(R.id.fab_add_screen);
-        openAddScreenButton.setOnClickListener(v ->
-                startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE));
 
+        FloatingActionButton openAddScreenButton = findViewById(R.id.fab_add_screen);
+        openAddScreenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                for (Fragment fragment : fragmentManager.getFragments()) {
+                    if (fragment.getUserVisibleHint()) {
+
+                        fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
+                    }
+                }
+            }
+
+
+        });
     }
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
