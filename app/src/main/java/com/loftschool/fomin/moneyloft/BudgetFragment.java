@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ public class BudgetFragment extends Fragment {
     static {
         REQUEST_CODE = 1001;
     }
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private ItemsAdapter mItemsAdapter;
     private Api mApi;
 
@@ -65,11 +66,20 @@ public class BudgetFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View fragmentView = inflater.inflate(R.layout.fragment_budget, container, false);
         RecyclerView recyclerView = fragmentView.findViewById((R.id.recycler_view));
+        mSwipeRefreshLayout = fragmentView.findViewById(R.id.refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadItems();
+            }
+        });
 
         assert getArguments() != null;
         mItemsAdapter = new ItemsAdapter(getArguments().getInt(PRICE_COLOR));
@@ -110,7 +120,7 @@ public class BudgetFragment extends Fragment {
         itemsResponseCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
-
+                mSwipeRefreshLayout.setRefreshing(false);
                 mItemsAdapter.clear();
                 List<Item> itemsList = response.body();
                 assert itemsList != null;
@@ -122,7 +132,8 @@ public class BudgetFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-
+                mSwipeRefreshLayout.setRefreshing(false);
+                t.printStackTrace();
 
             }
         });
