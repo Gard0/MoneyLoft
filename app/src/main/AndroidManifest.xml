@@ -26,7 +26,7 @@
         <activity
             android:name=".BudgetActivity"
             android:label="@string/budget_title"
-            android:theme="@style/AddItemActivityTheme" />
+            android:theme="@style/BudgeActivityTheme" />
     </application>
 
 </manifest>
