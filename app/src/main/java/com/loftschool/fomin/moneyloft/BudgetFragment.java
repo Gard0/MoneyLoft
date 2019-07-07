@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -71,7 +73,7 @@ public class BudgetFragment extends Fragment {
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
 
-        Button openAddScreenButton = fragmentView.findViewById(R.id.open_add_screen);
+        FloatingActionButton openAddScreenButton = fragmentView.findViewById(R.id.fab_add_screen);
         openAddScreenButton.setOnClickListener(v -> startActivityForResult(new Intent(getContext(), AddItemActivity.class), REQUEST_CODE));
 
         return fragmentView;
