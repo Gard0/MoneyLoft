@@ -75,9 +75,9 @@ public class BudgetActivity extends AppCompatActivity {
         public Fragment getItem(final int i) {
             switch (i) {
                 case 0:
-                    return BudgetFragment.newInstance(FragmentType.income);
-                case 1:
                     return BudgetFragment.newInstance(FragmentType.expense);
+                case 1:
+                    return BudgetFragment.newInstance(FragmentType.income);
             }
             return null;
         }
