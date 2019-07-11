@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
 
 import androidx.annotation.NonNull;
@@ -60,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView helloWorldView = findViewById(R.id.hello_world);
-        helloWorldView.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BudgetActivity.class)));
+        Button enterButton = findViewById(R.id.enter_button);
+        enterButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BudgetActivity.class)));
         LoftMoneyApp loftMoneyApp = (LoftMoneyApp) getApplication();
 
         Api api = loftMoneyApp.getApi();
@@ -84,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void saveToken (final String token){
+
+    private void saveToken(final String token) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("auth_token", token);
