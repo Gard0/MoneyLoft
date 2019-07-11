@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.Button;
 
 
@@ -91,4 +92,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    public void clickMyBtn(View view) {
+
+    }
 }

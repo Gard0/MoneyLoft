@@ -27,10 +27,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
+        android:focusableInTouchMode="true"
         android:fontFamily="sans-serif-medium"
+        android:paddingStart="40dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="40dp"
+        android:paddingBottom="16dp"
         android:text="@string/enter_button_title"
         android:textColor="@color/colorPrimary"
+
         android:textSize="14sp"
+        android:onClick="clickMyBtn"
         app:cornerRadius="24dp" />
 
 
