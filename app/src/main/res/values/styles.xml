@@ -19,6 +19,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/marigold</item>
     </style>
+
     <style name="TextStyle">
         <item name="android:textSize">36sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
