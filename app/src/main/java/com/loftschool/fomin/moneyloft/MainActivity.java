@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         Api api = loftMoneyApp.getApi();
 
-         String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Call<AuthResponse> authCall = api.auth(androidId);
         authCall.enqueue(new Callback<AuthResponse>() {
