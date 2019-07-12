@@ -61,12 +61,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button enterButton = findViewById(R.id.enter_button);
-        enterButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, BudgetActivity.class)));
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, BudgetActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+        });
+
         LoftMoneyApp loftMoneyApp = (LoftMoneyApp) getApplication();
 
         Api api = loftMoneyApp.getApi();
 
-        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Call<AuthResponse> authCall = api.auth(androidId);
         authCall.enqueue(new Callback<AuthResponse>() {
