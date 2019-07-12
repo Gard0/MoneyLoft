@@ -64,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, BudgetActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                startActivity(new Intent(MainActivity.this, BudgetActivity.class));
                 finish();
+                overridePendingTransition(R.anim.from_right_in, R.anim.from_left_out);
             }
         });
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         Api api = loftMoneyApp.getApi();
 
-        String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        @SuppressLint("HardwareIds") String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         Call<AuthResponse> authCall = api.auth(androidId);
         authCall.enqueue(new Callback<AuthResponse>() {

@@ -20,7 +20,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title_hint">
+            android:hint="@string/title_hint"
+            android:background="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_editText"
@@ -28,13 +29,16 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textColor="@color/title_text_color"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:background="@android:color/white"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/price_hint">
+            android:hint="@string/price_hint"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/price_editText"
@@ -42,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:textColor="@color/title_text_color"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:background="@android:color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
