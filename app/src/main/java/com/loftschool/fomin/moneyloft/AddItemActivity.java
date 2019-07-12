@@ -76,6 +76,7 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 setResult(Activity.RESULT_OK, new Intent().putExtra("name", title).putExtra("price", price));
                 finish();
+                overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
             }
         });
     }
