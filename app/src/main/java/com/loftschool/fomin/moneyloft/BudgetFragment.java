@@ -22,6 +22,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
+
 public class BudgetFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
@@ -93,7 +95,7 @@ public class BudgetFragment extends Fragment {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+            final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
             final int price = Integer.parseInt(data.getStringExtra("price"));
             final String name = data.getStringExtra("name");
             assert getArguments() != null;
