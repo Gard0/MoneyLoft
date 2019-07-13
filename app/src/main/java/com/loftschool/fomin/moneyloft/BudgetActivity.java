@@ -58,6 +58,7 @@ public class BudgetActivity extends AppCompatActivity {
                         fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
                     }
                 }
+                overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
             }
 
 

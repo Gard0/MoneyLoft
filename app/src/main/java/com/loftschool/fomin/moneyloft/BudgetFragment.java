@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,9 +13,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +21,8 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
 
 public class BudgetFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +33,7 @@ public class BudgetFragment extends Fragment {
     static {
         REQUEST_CODE = 1001;
     }
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ItemsAdapter mItemsAdapter;
     private Api mApi;
@@ -88,13 +88,14 @@ public class BudgetFragment extends Fragment {
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
 
         return fragmentView;
+
     }
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+            final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
             final int price = Integer.parseInt(data.getStringExtra("price"));
             final String name = data.getStringExtra("name");
             assert getArguments() != null;
@@ -103,6 +104,7 @@ public class BudgetFragment extends Fragment {
                 @Override
                 public void onResponse(Call<Status> call, Response<Status> response) {
                     loadItems();
+
                 }
 
                 @Override
@@ -111,6 +113,7 @@ public class BudgetFragment extends Fragment {
                 }
             });
         }
+
     }
 
     private void loadItems() {
@@ -120,6 +123,7 @@ public class BudgetFragment extends Fragment {
         itemsResponseCall.enqueue(new Callback<List<Item>>() {
             @Override
             public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+
                 mSwipeRefreshLayout.setRefreshing(false);
                 mItemsAdapter.clear();
                 List<Item> itemsList = response.body();
@@ -134,6 +138,7 @@ public class BudgetFragment extends Fragment {
             public void onFailure(Call<List<Item>> call, Throwable t) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 t.printStackTrace();
+
 
             }
         });

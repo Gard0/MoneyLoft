@@ -9,5 +9,6 @@
     <string name="Outcome">Outcome</string>
     <string name="outcome">Outcome</string>
     <string name="income">Income</string>
+    <string name="enter_button_title">Enter</string>
 
 </resources>
