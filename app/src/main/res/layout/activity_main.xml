@@ -26,8 +26,7 @@
         android:id="@+id/enter_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:backgroundTint="@color/colorAccentGrey"
+        app:backgroundTint="@android:color/white"
         android:fontFamily="sans-serif-medium"
         android:paddingStart="40dp"
         android:paddingTop="16dp"
@@ -36,7 +35,8 @@
         android:text="@string/enter_button_title"
         android:textColor="@color/colorPrimary"
         android:textSize="14sp"
-        app:cornerRadius="24dp" />
-
+        android:visibility="visible"
+        app:cornerRadius="24dp"
+        app:rippleColor="@color/colorAccentGrey" />
 
 </LinearLayout>
