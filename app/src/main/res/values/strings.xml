@@ -10,5 +10,6 @@
     <string name="outcome">Outcome</string>
     <string name="income">Income</string>
     <string name="enter_button_title">Enter</string>
+    <string name="remove_title">remove_title</string>
 
 </resources>

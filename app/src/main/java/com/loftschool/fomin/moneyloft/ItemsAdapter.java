@@ -1,6 +1,7 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.util.SparseBooleanArray;
+import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -65,6 +66,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         mItemList.clear();
         notifyDataSetChanged();
     }
+
+    public void clearSelections() {
+        mSelectedItems.clear();
+    }
+
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameView;

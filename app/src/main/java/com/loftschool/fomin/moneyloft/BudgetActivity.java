@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -25,6 +29,7 @@ public class BudgetActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private BudgetViewPagerAdapter mViewPagerAdapter;
+    private FloatingActionButton mFloatingActionButton;
 
 
     @Override
@@ -47,14 +52,13 @@ public class BudgetActivity extends AppCompatActivity {
 
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
 
-        FloatingActionButton openAddScreenButton = findViewById(R.id.fab_add_screen);
-        openAddScreenButton.setOnClickListener(new View.OnClickListener() {
+        mFloatingActionButton = findViewById(R.id.fab_add_screen);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 for (Fragment fragment : fragmentManager.getFragments()) {
                     if (fragment.getUserVisibleHint()) {
-
                         fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
                     }
                 }
@@ -63,6 +67,25 @@ public class BudgetActivity extends AppCompatActivity {
 
 
         });
+    }
+
+    @Override
+    public void onSupportActionModeStarted(@NonNull ActionMode mode) {
+        super.onSupportActionModeStarted(mode);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey_blue));
+        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey_blue));
+        mFloatingActionButton.hide();
+
+    }
+
+    @Override
+    public void onSupportActionModeFinished(@NonNull ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mFloatingActionButton.show();
+
+
     }
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {

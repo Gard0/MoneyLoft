@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.preference.PreferenceManager;
+
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +31,7 @@ import retrofit2.Response;
 
 import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
 
-public class BudgetFragment extends Fragment implements ItemAdapterListener {
+public class BudgetFragment extends Fragment implements ItemAdapterListener, ActionMode.Callback {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
@@ -38,6 +44,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ItemsAdapter mItemsAdapter;
     private Api mApi;
+    private ActionMode mActionMode;
 
     public BudgetFragment() {
         // Required empty public constructor
@@ -143,7 +150,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener {
 
     @Override
     public void onItemClick(Item item, int position) {
-        if (mItemsAdapter.isSelected(position)){
+        if (mItemsAdapter.isSelected(position)) {
             mItemsAdapter.toggleItem(position);
             mItemsAdapter.notifyDataSetChanged();
         }
@@ -153,5 +160,33 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener {
     public void onItemLongClick(final Item item, final int position) {
         mItemsAdapter.toggleItem(position);
         mItemsAdapter.notifyDataSetChanged();
+        if (mActionMode == null) {
+            ((AppCompatActivity) (getActivity())).startSupportActionMode(this);
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mActionMode = mode;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        MenuInflater inflater = new MenuInflater(getContext());
+        inflater.inflate(R.menu.item_menu_remove, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        return false;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        mItemsAdapter.clearSelections();
+        mItemsAdapter.notifyDataSetChanged();
+        mActionMode = null;
     }
 }
