@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +25,7 @@ import retrofit2.Response;
 
 import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
 
-public class BudgetFragment extends Fragment {
+public class BudgetFragment extends Fragment implements ItemAdapterListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
@@ -67,22 +68,18 @@ public class BudgetFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View fragmentView = inflater.inflate(R.layout.fragment_budget, container, false);
         RecyclerView recyclerView = fragmentView.findViewById((R.id.recycler_view));
         mSwipeRefreshLayout = fragmentView.findViewById(R.id.refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadItems();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::loadItems);
 
         assert getArguments() != null;
         mItemsAdapter = new ItemsAdapter(getArguments().getInt(PRICE_COLOR));
+        mItemsAdapter.setListener(this);
 
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
@@ -144,4 +141,14 @@ public class BudgetFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onItemClick(Item item, int position) {
+
+    }
+
+    @Override
+    public void onItemLongClick(final Item item,final int position) {
+    mItemsAdapter.toggleItem(position);
+    mItemsAdapter.notifyDataSetChanged();
+    }
 }

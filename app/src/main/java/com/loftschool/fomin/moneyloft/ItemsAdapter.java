@@ -1,5 +1,6 @@
 package com.loftschool.fomin.moneyloft;
 
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,10 +14,22 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHolder> {
     private List<Item> mItemList = new ArrayList<>();
     private int mPriceColor;
+    private ItemAdapterListener mListener;
+
+    private SparseBooleanArray mSelectedItems = new SparseBooleanArray();
 
     ItemsAdapter(int priceColor) {
         mPriceColor = priceColor;
 
+    }
+
+    void setListener(ItemAdapterListener listener) {
+        mListener = listener;
+
+    }
+
+    void toggleItem(int position) {
+        mSelectedItems.put(position, !mSelectedItems.get(position));
     }
 
     @NonNull
@@ -31,8 +44,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
     @Override
     public void onBindViewHolder(@NonNull final ItemsAdapter.ItemViewHolder viewHolder, final int position) {
         final Item item = mItemList.get(position);
-        viewHolder.bindItem(item);
-        viewHolder.setListener(item, position);
+        viewHolder.bindItem(item, mSelectedItems.get(position));
+        viewHolder.setListener(item, mListener, position);
     }
 
     @Override
@@ -50,37 +63,34 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         notifyDataSetChanged();
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    class ItemViewHolder extends RecyclerView.ViewHolder {
         private TextView mNameView;
         private TextView mPriceView;
+        private View mItemView;
 
         ItemViewHolder(@NonNull final View itemView) {
             super(itemView);
+            mItemView = itemView;
             mNameView = itemView.findViewById(R.id.item_name);
             mPriceView = itemView.findViewById(R.id.item_price);
 
 
         }
 
-        void bindItem(final Item item) {
+        void bindItem(final Item item, final boolean selected) {
+            mItemView.setSelected(selected);
             mNameView.setText(item.getName());
             mPriceView.setText(
                     (mPriceView.getContext().getResources().getString(R.string.prise_template, String.valueOf(item.getPrice()))));
 
         }
-        public void  setListener (Item item, int position){
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    itemView.setSelected(!itemView.isSelected());
-                    return false;
-                }
+        void setListener(final Item item, final ItemAdapterListener listener, final int position) {
+            mItemView.setOnClickListener(view -> listener.onItemClick(item, position));
+
+            mItemView.setOnLongClickListener(view -> {
+                listener.onItemLongClick(item, position);
+                return false;
             });
         }
 
