@@ -27,7 +27,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewHold
         mListener = listener;
 
     }
+    boolean isSelected(final int position){
+           return mSelectedItems.get(position);
 
+    }
     void toggleItem(int position) {
         mSelectedItems.put(position, !mSelectedItems.get(position));
     }

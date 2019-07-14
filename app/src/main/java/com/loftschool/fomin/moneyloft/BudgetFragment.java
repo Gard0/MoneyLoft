@@ -25,7 +25,7 @@ import retrofit2.Response;
 
 import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
 
-public class BudgetFragment extends Fragment implements ItemAdapterListener{
+public class BudgetFragment extends Fragment implements ItemAdapterListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
@@ -143,12 +143,15 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener{
 
     @Override
     public void onItemClick(Item item, int position) {
-
+        if (mItemsAdapter.isSelected(position)){
+            mItemsAdapter.toggleItem(position);
+            mItemsAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void onItemLongClick(final Item item,final int position) {
-    mItemsAdapter.toggleItem(position);
-    mItemsAdapter.notifyDataSetChanged();
+    public void onItemLongClick(final Item item, final int position) {
+        mItemsAdapter.toggleItem(position);
+        mItemsAdapter.notifyDataSetChanged();
     }
 }
