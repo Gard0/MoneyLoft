@@ -77,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    public void clickMyBtn(View view) {
-
-    }
-
     private String getToken() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         return sharedPreferences.getString(AUTH_TOKEN, "");

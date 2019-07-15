@@ -1,16 +1,25 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.preference.PreferenceManager;
+
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,7 +33,7 @@ import retrofit2.Response;
 
 import static com.loftschool.fomin.moneyloft.MainActivity.AUTH_TOKEN;
 
-public class BudgetFragment extends Fragment {
+public class BudgetFragment extends Fragment implements ItemAdapterListener, ActionMode.Callback {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
@@ -37,6 +46,7 @@ public class BudgetFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ItemsAdapter mItemsAdapter;
     private Api mApi;
+    private ActionMode mActionMode;
 
     public BudgetFragment() {
         // Required empty public constructor
@@ -67,22 +77,18 @@ public class BudgetFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
+            @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View fragmentView = inflater.inflate(R.layout.fragment_budget, container, false);
         RecyclerView recyclerView = fragmentView.findViewById((R.id.recycler_view));
         mSwipeRefreshLayout = fragmentView.findViewById(R.id.refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadItems();
-            }
-        });
+        mSwipeRefreshLayout.setOnRefreshListener(this::loadItems);
 
         assert getArguments() != null;
         mItemsAdapter = new ItemsAdapter(getArguments().getInt(PRICE_COLOR));
+        mItemsAdapter.setListener(this);
 
         recyclerView.setAdapter(mItemsAdapter);
         recyclerView.setLayoutManager((new LinearLayoutManager(getContext())));
@@ -144,4 +150,85 @@ public class BudgetFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onItemClick(Item item, int position) {
+        if (mItemsAdapter.isSelected(position)) {
+            mItemsAdapter.toggleItem(position);
+            mItemsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onItemLongClick(final Item item, final int position) {
+        mItemsAdapter.toggleItem(position);
+        mItemsAdapter.notifyDataSetChanged();
+        if (mActionMode == null) {
+            ((AppCompatActivity) (Objects.requireNonNull(getActivity()))).startSupportActionMode(this);
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        mActionMode = mode;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        MenuInflater inflater = new MenuInflater(getContext());
+        inflater.inflate(R.menu.item_menu_remove, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        if (item.getItemId() == R.id.delete_menu_item) {
+            showDialog();
+
+        }
+        return false;
+    }
+
+    private void showDialog() {
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.remove_conformation)
+                .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> removeItems())
+                .setNegativeButton(android.R.string.no, (dialogInterface, i) -> {
+
+                }).show();
+    }
+
+    private void removeItems() {
+        List<Integer> selectedIds = mItemsAdapter.getSelectedItemsIds();
+        for (int selectedId : selectedIds) {
+            removeItem(selectedId);
+        }
+    }
+
+    private void removeItem(int selectedId) {
+        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
+        assert getArguments() != null;
+        Call<Status> itemsRemoveCall = mApi.removeItem(selectedId, token);
+        itemsRemoveCall.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+
+                loadItems();
+                mItemsAdapter.clearSelections();
+
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        mItemsAdapter.clearSelections();
+        mItemsAdapter.notifyDataSetChanged();
+        mActionMode = null;
+    }
 }

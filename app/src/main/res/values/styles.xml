@@ -14,10 +14,13 @@
         <item name="colorAccent">@color/colorAccentGrey</item>
     </style>
 
-    <style name="BudgeActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BudgeActivityTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/marigold</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/dark_grey_blue</item>
+
     </style>
 
     <style name="TextStyle">
