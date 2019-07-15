@@ -11,5 +11,8 @@
     <string name="income">Income</string>
     <string name="enter_button_title">Enter</string>
     <string name="remove_title">remove_title</string>
+    <string name="remove_conformation">Delete this item?</string>
+    <string name="windowActionModeOverlay">windowActionModeOverlay</string>
+    <string name="actionModeBackground">actionModeBackground</string>
 
 </resources>

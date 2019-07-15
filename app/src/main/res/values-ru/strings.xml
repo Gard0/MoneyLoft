@@ -11,4 +11,7 @@
     <string name="income">Доходы</string>
     <string name="enter_button_title">Войти</string>
     <string name="remove_title">Удалить</string>
+    <string name="remove_conformation">Удалить?</string>
+    <string name="actionModeBackground">actionModeBackground</string>
+    <string name="windowActionModeOverlay">windowActionModeOverlay</string>
 </resources>

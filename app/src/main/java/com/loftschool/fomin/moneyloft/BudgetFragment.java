@@ -1,6 +1,8 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -161,7 +163,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
         mItemsAdapter.toggleItem(position);
         mItemsAdapter.notifyDataSetChanged();
         if (mActionMode == null) {
-            ((AppCompatActivity) (getActivity())).startSupportActionMode(this);
+            ((AppCompatActivity) (Objects.requireNonNull(getActivity()))).startSupportActionMode(this);
         }
     }
 
@@ -179,8 +181,48 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     }
 
     @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        if (item.getItemId() == R.id.delete_menu_item) {
+            showDialog();
+
+        }
         return false;
+    }
+
+    private void showDialog() {
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.remove_conformation)
+                .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> removeItems())
+                .setNegativeButton(android.R.string.no, (dialogInterface, i) -> {
+
+                }).show();
+    }
+
+    private void removeItems() {
+        List<Integer> selectedIds = mItemsAdapter.getSelectedItemsIds();
+        for (int selectedId : selectedIds) {
+            removeItem(selectedId);
+        }
+    }
+
+    private void removeItem(int selectedId) {
+        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
+        assert getArguments() != null;
+        Call<Status> itemsRemoveCall = mApi.removeItem(selectedId, token);
+        itemsRemoveCall.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+
+                loadItems();
+                mItemsAdapter.clearSelections();
+
+            }
+
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

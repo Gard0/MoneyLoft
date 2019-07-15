@@ -1,11 +1,16 @@
 package com.loftschool.fomin.moneyloft;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.view.ActionMode;
@@ -21,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Objects;
 
 import static com.loftschool.fomin.moneyloft.BudgetFragment.REQUEST_CODE;
+import static com.loftschool.fomin.moneyloft.R.color.dark_grey_blue;
 
 
 public class BudgetActivity extends AppCompatActivity {
@@ -53,28 +59,46 @@ public class BudgetActivity extends AppCompatActivity {
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
 
         mFloatingActionButton = findViewById(R.id.fab_add_screen);
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                for (Fragment fragment : fragmentManager.getFragments()) {
-                    if (fragment.getUserVisibleHint()) {
-                        fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
-                    }
+        mFloatingActionButton.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            for (Fragment fragment : fragmentManager.getFragments()) {
+                if (fragment.getUserVisibleHint()) {
+                    fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
                 }
-                overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
             }
-
-
+            overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
         });
     }
 
     @Override
     public void onSupportActionModeStarted(@NonNull ActionMode mode) {
         super.onSupportActionModeStarted(mode);
-        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey_blue));
-        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.dark_grey_blue));
+
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, dark_grey_blue));
+        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, dark_grey_blue));
         mFloatingActionButton.hide();
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, dark_grey_blue));
+
+    }
+
+    @Override
+    public void onActionModeStarted(android.view.ActionMode mode) {
+        super.onActionModeStarted(mode);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, dark_grey_blue));
+        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, dark_grey_blue));
+        mFloatingActionButton.hide();
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, dark_grey_blue));
+
+
+    }
+
+    @Override
+    public void onActionModeFinished(android.view.ActionMode mode) {
+        super.onActionModeFinished(mode);
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        mFloatingActionButton.show();
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
     }
 
@@ -84,8 +108,7 @@ public class BudgetActivity extends AppCompatActivity {
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         mFloatingActionButton.show();
-
-
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
     }
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
@@ -95,6 +118,7 @@ public class BudgetActivity extends AppCompatActivity {
 
         }
 
+        @NonNull
         @Override
         public Fragment getItem(final int i) {
             switch (i) {

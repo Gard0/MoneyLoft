@@ -3,10 +3,14 @@ package com.loftschool.fomin.moneyloft;
 public class Item {
     private String name;
     private int price;
+    private int id;
 
-    public Item(final String name, final int price) {
-        this.name = name;
-        this.price = price;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -17,7 +21,7 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice() {
+    int getPrice() {
         return price;
     }
 
