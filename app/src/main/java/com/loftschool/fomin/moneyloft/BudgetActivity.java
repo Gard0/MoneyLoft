@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,10 +27,11 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Objects;
 
 import static com.loftschool.fomin.moneyloft.BudgetFragment.REQUEST_CODE;
+import static com.loftschool.fomin.moneyloft.BudgetFragment.actionMode;
 import static com.loftschool.fomin.moneyloft.R.color.dark_grey_blue;
 
 
-public class BudgetActivity extends AppCompatActivity {
+public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private androidx.appcompat.widget.Toolbar mToolbar;
     private TabLayout mTabLayout;
@@ -51,6 +53,8 @@ public class BudgetActivity extends AppCompatActivity {
         mTabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.view_pager);
         mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.addOnPageChangeListener(this);
+
 
         mTabLayout.setupWithViewPager(mViewPager);
         Objects.requireNonNull(mTabLayout.getTabAt(0)).setText(R.string.outcome);
@@ -78,6 +82,7 @@ public class BudgetActivity extends AppCompatActivity {
         mTabLayout.setBackgroundColor(ContextCompat.getColor(this, dark_grey_blue));
         mFloatingActionButton.hide();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, dark_grey_blue));
+        actionMode = mode;
 
     }
 
@@ -100,6 +105,7 @@ public class BudgetActivity extends AppCompatActivity {
         mFloatingActionButton.show();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
 
+
     }
 
     @Override
@@ -109,12 +115,48 @@ public class BudgetActivity extends AppCompatActivity {
         mTabLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
         mFloatingActionButton.show();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        actionMode = null;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        switch (position) {
+            case BudgetViewPagerAdapter.PAGE_EXPENSES:
+            case BudgetViewPagerAdapter.PAGE_INCOMES:
+                mFloatingActionButton.show();
+                break;
+//            case BudgetViewPagerAdapter.PAGE_BALANCE:     task_9 in progress
+//                mFloatingActionButton.hide();             task_9 in progress
+//
+//                break;
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        switch (state) {
+            case ViewPager.SCROLL_STATE_DRAGGING:
+            case ViewPager.SCROLL_STATE_SETTLING:
+                if (null != actionMode) actionMode.finish();
+                break;
+        }
+
     }
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
 
+        public static final int PAGE_EXPENSES = 0;
+        public static final int PAGE_INCOMES = 1;
+//        public static final int PAGE_BALANCE = 2;   task_9 in progress
+
         BudgetViewPagerAdapter(final FragmentManager fm) {
             super(fm);
+
 
         }
 
