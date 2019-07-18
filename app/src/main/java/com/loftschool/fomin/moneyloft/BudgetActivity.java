@@ -123,10 +123,9 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
             case BudgetViewPagerAdapter.PAGE_INCOMES:
                 mFloatingActionButton.show();
                 break;
-//            case BudgetViewPagerAdapter.PAGE_BALANCE:     task_9 in progress
-//                mFloatingActionButton.hide();             task_9 in progress
-//
-//                break;
+            case BudgetViewPagerAdapter.PAGE_BALANCE:
+                mFloatingActionButton.hide();
+                break;
         }
     }
 
@@ -145,7 +144,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
 
         public static final int PAGE_EXPENSES = 0;
         public static final int PAGE_INCOMES = 1;
-//        public static final int PAGE_BALANCE = 2;   task_9 in progress
+        public static final int PAGE_BALANCE = 2;
 
         BudgetViewPagerAdapter(final FragmentManager fm) {
             super(fm);
