@@ -14,5 +14,6 @@
     <string name="remove_conformation">Delete this item?</string>
     <string name="windowActionModeOverlay">windowActionModeOverlay</string>
     <string name="actionModeBackground">actionModeBackground</string>
+    <string name="balance">Balance</string>
 
 </resources>

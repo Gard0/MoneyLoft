@@ -59,6 +59,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
         mTabLayout.setupWithViewPager(mViewPager);
         Objects.requireNonNull(mTabLayout.getTabAt(0)).setText(R.string.outcome);
         Objects.requireNonNull(mTabLayout.getTabAt(1)).setText(R.string.income);
+        Objects.requireNonNull(mTabLayout.getTabAt(2)).setText(R.string.balance);
 
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
 
@@ -120,7 +121,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        
+
     }
 
     @Override
@@ -168,13 +169,15 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
                     return BudgetFragment.newInstance(FragmentType.expense);
                 case 1:
                     return BudgetFragment.newInstance(FragmentType.income);
+                case 2:
+                    return BalanceFragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }
