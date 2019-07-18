@@ -38,6 +38,8 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     private static final String PRICE_COLOR = "price_color";
     private static final String TYPE = "type";
     static final int REQUEST_CODE;
+    public static android.view.ActionMode mode;
+    public static ActionMode actionMode;
 
     static {
         REQUEST_CODE = 1001;
@@ -171,6 +173,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mActionMode = mode;
         return true;
+
     }
 
     @Override
