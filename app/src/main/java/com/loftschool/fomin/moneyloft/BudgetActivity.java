@@ -1,7 +1,10 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.content.Intent;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +33,8 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
     private ViewPager mViewPager;
     private BudgetViewPagerAdapter mViewPagerAdapter;
     private FloatingActionButton mFloatingActionButton;
+    private android.preference.PreferenceManager PreferenceManager;
+    private int i;
 
 
     @Override
@@ -63,8 +68,11 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
                     fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
                 }
             }
+
             overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
         });
+        mViewPager.setCurrentItem(getPage());
+
     }
 
     @Override
@@ -121,14 +129,32 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
     public void onPageSelected(int position) {
         switch (position) {
             case BudgetViewPagerAdapter.PAGE_EXPENSES:
+                savePage(position);
             case BudgetViewPagerAdapter.PAGE_INCOMES:
                 mFloatingActionButton.show();
+                savePage(position);
                 break;
             case BudgetViewPagerAdapter.PAGE_BALANCE:
                 mFloatingActionButton.hide();
+                savePage(position);
                 break;
         }
+
+
     }
+
+    private void savePage(int page) {
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(BudgetActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("page", page);
+        editor.apply();
+    }
+
+    private int getPage() {
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(BudgetActivity.this);
+        return sharedPreferences.getInt("page", 0);
+    }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
@@ -143,9 +169,9 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int PAGE_EXPENSES = 0;
-        public static final int PAGE_INCOMES = 1;
-        public static final int PAGE_BALANCE = 2;
+        static final int PAGE_EXPENSES = 0;
+        static final int PAGE_INCOMES = 1;
+        static final int PAGE_BALANCE = 2;
 
         BudgetViewPagerAdapter(final FragmentManager fm) {
             super(fm);
