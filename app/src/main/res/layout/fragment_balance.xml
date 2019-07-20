@@ -48,22 +48,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingTop="41dp"
+            android:paddingBottom="27dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end"
-                android:text="@string/income"
+                android:text="@string/outcome"
                 android:textColor="@color/medium_grey"
                 android:textSize="10sp"
                 android:textStyle="normal"
-                tools:text="Расход" />
+                tools:text="Расход"
+                tools:ignore="SmallSp" />
 
 
             <TextView
-                android:id="@+id/total_income"
+                android:id="@+id/total_outcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
@@ -82,21 +87,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:paddingTop="41dp"
+            android:paddingBottom="27dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end"
-                android:text="@string/outcome"
+                android:text="@string/income"
                 android:textColor="@color/medium_grey"
                 android:textSize="10sp"
                 android:textStyle="normal"
-                tools:text="Доход" />
+                tools:text="Доход"
+                tools:ignore="SmallSp" />
 
             <TextView
-                android:id="@+id/total_outcome"
+                android:id="@+id/total_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
