@@ -121,7 +121,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     }
 
     private void loadItems() {
-        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
         assert getArguments() != null;
         Call<List<Item>> itemsResponseCall = mApi.getItems(getArguments().getString(TYPE), token);
         itemsResponseCall.enqueue(new Callback<List<Item>>() {
