@@ -72,18 +72,19 @@ public class BalanceFragment extends Fragment {
             @Override
             public void onResponse(
                     Call<BalanceResponse> call, Response<BalanceResponse> response) {
-                mTotalMoney.setText(getString(R.string.prise_template, String.valueOf(response.body().getTotalExpenses()+response.body().getTotalIncome())));
+                mTotalMoney.setText(getString(R.string.prise_template, String.valueOf(response.body().getTotalIncome() - response.body().getTotalExpenses())));
                 mExpensesMoney.setText(getString(R.string.prise_template, String.valueOf(response.body().getTotalExpenses())));
                 mIncomeMoney.setText(getString(R.string.prise_template, String.valueOf(response.body().getTotalIncome())));
+
+                mDiagramView.update(response.body().getTotalIncome(), response.body().getTotalExpenses());
             }
 
 
+            @Override
+            public void onFailure(Call<BalanceResponse> call, Throwable t) {
 
-        @Override
-        public void onFailure (Call < BalanceResponse > call, Throwable t){
-
-        }
-    });
-}
+            }
+        });
+    }
 
 }

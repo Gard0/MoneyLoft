@@ -43,8 +43,8 @@ public class DiagramView extends View {
 
     public void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
-            expensePaint.setColor(ContextCompat.getColor(context, R.color.income_price_color));
-            incomePaint.setColor(ContextCompat.getColor(context, R.color.dark_sky_blue));
+            expensePaint.setColor(ContextCompat.getColor(context, R.color.dark_sky_blue));
+            incomePaint.setColor(ContextCompat.getColor(context, R.color.income_price_color));
         }
 
     }

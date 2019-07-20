@@ -6,5 +6,6 @@
         android:icon="@drawable/ic_remove"
         android:title="@string/remove_title"
         app:showAsAction="always" />
-    
+
+
 </menu>

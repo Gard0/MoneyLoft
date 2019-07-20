@@ -184,6 +184,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
         if (item.getItemId() == R.id.delete_menu_item) {
             showDialog();
 
+
         }
         return false;
     }

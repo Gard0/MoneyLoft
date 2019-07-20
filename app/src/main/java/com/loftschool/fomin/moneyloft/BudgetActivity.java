@@ -77,6 +77,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
         getWindow().setStatusBarColor(ContextCompat.getColor(this, dark_grey_blue));
         actionMode = mode;
 
+
     }
 
     @Override
