@@ -15,5 +15,6 @@
     <string name="windowActionModeOverlay">windowActionModeOverlay</string>
     <string name="actionModeBackground">actionModeBackground</string>
     <string name="balance">Balance</string>
+    <string name="finances">Доступные финансы</string>
 
 </resources>
