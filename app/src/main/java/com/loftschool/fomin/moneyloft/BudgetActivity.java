@@ -34,7 +34,6 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
     private BudgetViewPagerAdapter mViewPagerAdapter;
     private FloatingActionButton mFloatingActionButton;
     private android.preference.PreferenceManager PreferenceManager;
-    private int i;
 
 
     @Override
