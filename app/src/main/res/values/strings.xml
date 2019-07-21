@@ -1,10 +1,10 @@
 <resources>
     <string name="add_button_text">Add</string>
+    <string name="app_title">MoneyLoft</string>
     <string name="price_hint">Price</string>
     <string name="title_hint">Title</string>
     <string name="prise_template">%1$s ₽</string>
     <string name="budget_title">Budget</string>
-    <string name="app_name">MoneyLoft</string>
     <string name="hello_world">Hello World</string>
     <string name="Outcome">Outcome</string>
     <string name="outcome">Outcome</string>
@@ -17,5 +17,6 @@
     <string name="balance">Balance</string>
     <string name="finances">Finances</string>
     <string name="delete_menu" translatable="false">" "</string>
+    <string name="todo" translatable="false">TODO</string>
 
 </resources>

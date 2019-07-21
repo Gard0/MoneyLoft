@@ -12,7 +12,8 @@
     <ImageView
         android:layout_width="93dp"
         android:layout_height="93dp"
-        android:src="@drawable/ic_icon_auth" />
+        android:src="@drawable/ic_icon_auth"
+        android:contentDescription="@string/todo" />
 
     <TextView
         style="@style/TextStyle"
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/app_name" />
+        android:text="@string/app_title" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/enter_button"

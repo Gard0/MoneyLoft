@@ -1,16 +1,16 @@
 <resources>
     <string name="title_hint">Название</string>
+    <string name="app_title">MoneyLoft(ru)</string>
     <string name="price_hint">Цена</string>
     <string name="budget_title">Учёт бюджета</string>
     <string name="prise_template">%1$s ₽</string>
     <string name="add_button_text">Добавить</string>
-    <string name="app_name">MoneyLoft (ru)</string>
     <string name="hello_world">Привет мир!</string>
     <string name="Outcome">Расходы</string>
     <string name="outcome">Расходы</string>
     <string name="income">Доходы</string>
     <string name="enter_button_title">Войти</string>
-    <string name="remove_title"></string>
+    <string name="remove_title" />
     <string name="remove_conformation">Удалить?</string>
     <string name="actionModeBackground">actionModeBackground</string>
     <string name="windowActionModeOverlay">windowActionModeOverlay</string>
