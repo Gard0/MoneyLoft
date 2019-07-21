@@ -13,15 +13,26 @@ android {
         maxSdkVersion 29
         signingConfig signingConfigs.debug
     }
+    signingConfigs {
+        release{
+            storeFile file ("release_keystore.jks")
+            storePassword 'Mazda!2019'
+            keyAlias 'Alias'
+            keyPassword 'Mazda!2019'
+        }
+
+    }
+
     buildTypes {
-        debug{
-            buildConfigField("String","URL","\"https://loftschool.com/android-api/basic/v1/\"")
+        debug {
+            buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
             resValue("string", "app_name", "MoneyLoft_Debug")
         }
         release {
-            minifyEnabled false
-            buildConfigField("String","URL","\"https://loftschool.com/android-api/basic/v1/\"")
+            signingConfig signingConfigs.release
+            buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
             resValue("string", "app_name", "MoneyLoft")
+            minifyEnabled false
 
         }
     }

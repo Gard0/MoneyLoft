@@ -12,8 +12,7 @@
     <ImageView
         android:layout_width="93dp"
         android:layout_height="93dp"
-        android:src="@drawable/ic_icon_auth"
-        android:contentDescription="@string/todo" />
+        android:src="@drawable/ic_icon_auth" />
 
     <TextView
         style="@style/TextStyle"

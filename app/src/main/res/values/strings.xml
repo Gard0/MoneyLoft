@@ -17,6 +17,5 @@
     <string name="balance">Balance</string>
     <string name="finances">Finances</string>
     <string name="delete_menu" translatable="false">" "</string>
-    <string name="todo" translatable="false">TODO</string>
 
 </resources>
