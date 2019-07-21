@@ -14,8 +14,13 @@ android {
         signingConfig signingConfigs.debug
     }
     buildTypes {
+        debug{
+            buildConfigField("String","URL","\"https://loftschool.com/android-api/basic/v1/\"")
+
+        }
         release {
             minifyEnabled false
+            buildConfigField("String","URL","\"https://loftschool.com/android-api/basic/v1/\"")
         }
     }
     compileOptions {
