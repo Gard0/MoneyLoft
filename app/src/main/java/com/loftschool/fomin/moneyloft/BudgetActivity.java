@@ -1,19 +1,14 @@
 package com.loftschool.fomin.moneyloft;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.os.Build;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import androidx.appcompat.view.ActionMode;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -38,6 +33,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
     private ViewPager mViewPager;
     private BudgetViewPagerAdapter mViewPagerAdapter;
     private FloatingActionButton mFloatingActionButton;
+    private android.preference.PreferenceManager PreferenceManager;
 
 
     @Override
@@ -59,6 +55,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
         mTabLayout.setupWithViewPager(mViewPager);
         Objects.requireNonNull(mTabLayout.getTabAt(0)).setText(R.string.outcome);
         Objects.requireNonNull(mTabLayout.getTabAt(1)).setText(R.string.income);
+        Objects.requireNonNull(mTabLayout.getTabAt(2)).setText(R.string.balance);
 
         mTabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.marigold));
 
@@ -70,8 +67,11 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
                     fragment.startActivityForResult(new Intent(BudgetActivity.this, AddItemActivity.class), REQUEST_CODE);
                 }
             }
+
             overridePendingTransition(R.anim.from_right_in, R.anim.alfa_out);
         });
+        mViewPager.setCurrentItem(getPage());
+
     }
 
     @Override
@@ -83,6 +83,7 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
         mFloatingActionButton.hide();
         getWindow().setStatusBarColor(ContextCompat.getColor(this, dark_grey_blue));
         actionMode = mode;
+
 
     }
 
@@ -120,22 +121,39 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        
+
     }
 
     @Override
     public void onPageSelected(int position) {
         switch (position) {
             case BudgetViewPagerAdapter.PAGE_EXPENSES:
+                savePage(position);
             case BudgetViewPagerAdapter.PAGE_INCOMES:
                 mFloatingActionButton.show();
+                savePage(position);
                 break;
-//            case BudgetViewPagerAdapter.PAGE_BALANCE:     task_9 in progress
-//                mFloatingActionButton.hide();             task_9 in progress
-//
-//                break;
+            case BudgetViewPagerAdapter.PAGE_BALANCE:
+                mFloatingActionButton.hide();
+                savePage(position);
+                break;
         }
+
+
     }
+
+    private void savePage(int page) {
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(BudgetActivity.this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("page", page);
+        editor.apply();
+    }
+
+    private int getPage() {
+        SharedPreferences sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(BudgetActivity.this);
+        return sharedPreferences.getInt("page", 0);
+    }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
@@ -150,9 +168,9 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
 
     static class BudgetViewPagerAdapter extends FragmentPagerAdapter {
 
-        public static final int PAGE_EXPENSES = 0;
-        public static final int PAGE_INCOMES = 1;
-//        public static final int PAGE_BALANCE = 2;   task_9 in progress
+        static final int PAGE_EXPENSES = 0;
+        static final int PAGE_INCOMES = 1;
+        static final int PAGE_BALANCE = 2;
 
         BudgetViewPagerAdapter(final FragmentManager fm) {
             super(fm);
@@ -168,13 +186,15 @@ public class BudgetActivity extends AppCompatActivity implements ViewPager.OnPag
                     return BudgetFragment.newInstance(FragmentType.expense);
                 case 1:
                     return BudgetFragment.newInstance(FragmentType.income);
+                case 2:
+                    return BalanceFragment.newInstance();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }

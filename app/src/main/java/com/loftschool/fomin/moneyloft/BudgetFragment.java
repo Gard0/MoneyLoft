@@ -2,9 +2,15 @@ package com.loftschool.fomin.moneyloft;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,16 +19,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.preference.PreferenceManager;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 import java.util.List;
 import java.util.Objects;
@@ -125,7 +121,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     }
 
     private void loadItems() {
-        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("auth_token", "");
+        final String token = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(AUTH_TOKEN, "");
         assert getArguments() != null;
         Call<List<Item>> itemsResponseCall = mApi.getItems(getArguments().getString(TYPE), token);
         itemsResponseCall.enqueue(new Callback<List<Item>>() {
@@ -187,6 +183,7 @@ public class BudgetFragment extends Fragment implements ItemAdapterListener, Act
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (item.getItemId() == R.id.delete_menu_item) {
             showDialog();
+
 
         }
         return false;

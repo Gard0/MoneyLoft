@@ -1,20 +1,16 @@
 package com.loftschool.fomin.moneyloft;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;

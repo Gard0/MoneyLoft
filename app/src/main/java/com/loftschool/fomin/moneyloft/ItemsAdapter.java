@@ -1,7 +1,6 @@
 package com.loftschool.fomin.moneyloft;
 
 import android.util.SparseBooleanArray;
-import android.view.ActionMode;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
