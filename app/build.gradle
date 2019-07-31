@@ -4,7 +4,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.0'
     defaultConfig {
-        applicationId "com.loftschool.fomin.moneyloft"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -13,16 +12,47 @@ android {
         maxSdkVersion 29
         signingConfig signingConfigs.debug
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file("release_keystore.jks")
+            storePassword 'Mazda!2019'
+            keyAlias 'Alias'
+            keyPassword 'Mazda!2019'
+        }
+
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
+            resValue("string", "app_name", "MoneyLoft_Debug")
+        }
+        release {
+            signingConfig signingConfigs.release
+            buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
+            resValue("string", "app_name", "MoneyLoft")
             minifyEnabled false
+
         }
     }
+    flavorDimensions('target')
+    productFlavors {
+        mobile {
+            dimension 'target'
+            applicationId "com.loftschool.fomin.moneyloft"
+        }
+        beta {
+            dimension 'target'
+            applicationIdSuffix ".test"
+        }
+    }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
