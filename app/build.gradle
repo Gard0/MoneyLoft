@@ -16,7 +16,7 @@ android {
         release {
             storeFile file("release_keystore.jks")
             storePassword 'Mazda!2019'
-            keyAlias 'Alias'
+            keyAlias 'key0'
             keyPassword 'Mazda!2019'
         }
 
@@ -24,6 +24,7 @@ android {
 
     buildTypes {
         debug {
+
             buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
             resValue("string", "app_name", "MoneyLoft_Debug")
         }
@@ -31,37 +32,38 @@ android {
             signingConfig signingConfigs.release
             buildConfigField("String", "URL", "\"https://loftschool.com/android-api/basic/v1/\"")
             resValue("string", "app_name", "MoneyLoft")
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
         }
     }
-    flavorDimensions('target')
+    flavorDimensions 'target'
     productFlavors {
         mobile {
-            dimension 'target'
-            applicationId "com.loftschool.fomin.moneyloft"
+
         }
+
         beta {
-            dimension 'target'
             applicationIdSuffix ".test"
         }
     }
+
 
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
-}
 
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'androidx.mediarouter:mediarouter:1.0.0'
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+        implementation 'androidx.recyclerview:recyclerview:1.0.0'
+        implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+        implementation 'com.google.android.material:material:1.0.0'
+        implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0'
+        implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+        implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+        implementation 'androidx.mediarouter:mediarouter:1.0.0'
+    }
 }
